@@ -22,13 +22,11 @@
     "rules": {
         "indent": [
             "error",
-            "tab",
-            2
+            "tab"
         ],
         "linebreak-style": [
             "error",
-            "unix",
-            "LF"
+            "unix"
         ],
         "quotes": [
             "error",
@@ -39,6 +37,5 @@
             "always"
         ],
         "react/react-in-jsx-scope": "off"
-
     }
 }
