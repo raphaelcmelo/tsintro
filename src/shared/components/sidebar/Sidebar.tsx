@@ -19,7 +19,7 @@ const ListItemLink: React.FC<IListItemLinkProps> = ({ to, label, icon, onClick }
 
 	const handleClick = () => {
 		navigate(to);
-		onclick?.();
+		onClick?.();
 	};
 
 	return(
@@ -83,8 +83,8 @@ Sidebar.propTypes = {
 };
 
 ListItemLink.propTypes = {
-	icon: PropTypes.string,
-	label: PropTypes.string,
-	to: PropTypes.string,
-	onClick: PropTypes.string
+	icon: PropTypes.string.isRequired,
+	label: PropTypes.string.isRequired,
+	to: PropTypes.string.isRequired,
+	onClick: PropTypes.func,
 };
