@@ -6,7 +6,9 @@ export const Dashboard = () => {
 		<BaseLayout
 			title='Título da página'
 			toolbar={(
-				<DetailsTools />
+				<DetailsTools
+					showSavenCloseButton
+				/>
 			)}>
       Testando
 		</BaseLayout>
