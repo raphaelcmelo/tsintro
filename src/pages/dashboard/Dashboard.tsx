@@ -8,6 +8,7 @@ export const Dashboard = () => {
 			toolbar={(
 				<DetailsTools
 					showSavenCloseButton
+
 				/>
 			)}>
       Testando

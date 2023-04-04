@@ -1,4 +1,4 @@
-import { Box, useTheme, Paper, Button, Icon, Divider } from '@mui/material';
+import { Box, useTheme, Paper, Button, Icon, Divider, Skeleton } from '@mui/material';
 import PropTypes from 'prop-types';
 
 interface IDetailsToolsProps {
@@ -9,6 +9,12 @@ interface IDetailsToolsProps {
   showRemoveButton?: boolean,
   showSaveButton?: boolean,
   showSavenCloseButton?: boolean,
+
+  showNewButtonLoading?: boolean,
+  showBackButtonLoading?: boolean,
+  showRemoveButtonLoading?: boolean,
+  showSaveButtonLoading?: boolean,
+  showSavenCloseButtonLoading?: boolean,
 
   onClickNew?: () => void,
   onClickBack?: () => void,
@@ -25,6 +31,13 @@ export const DetailsTools: React.FC<IDetailsToolsProps> = ({
 	showRemoveButton = true,
 	showSaveButton = true,
 	showSavenCloseButton = false,
+
+	showNewButtonLoading = false,
+	showBackButtonLoading = false,
+	showRemoveButtonLoading = false,
+	showSaveButtonLoading = false,
+	showSavenCloseButtonLoading = false,
+
 	onClickNew,
 	onClickBack,
 	onClickRemove,
@@ -44,7 +57,7 @@ export const DetailsTools: React.FC<IDetailsToolsProps> = ({
 			height={theme.spacing(5)}
 			component={Paper}
 		>
-			{showSaveButton &&(
+			{(showSaveButton && !showSaveButtonLoading) &&(
 				<Button
 					color='primary'
 					disableElevation
@@ -54,7 +67,10 @@ export const DetailsTools: React.FC<IDetailsToolsProps> = ({
 				>
           Salvar
 				</Button>)}
-			{showSavenCloseButton &&(
+
+			{showSaveButtonLoading &&(<Skeleton width={110} height={64}></Skeleton>)}
+
+			{(showSavenCloseButton && !showSavenCloseButtonLoading)  &&(
 				<Button
 					color='secondary'
 					disableElevation
@@ -64,7 +80,10 @@ export const DetailsTools: React.FC<IDetailsToolsProps> = ({
 				>
           Salvar e voltar
 				</Button>)}
-			{showRemoveButton &&(
+
+			{showSavenCloseButtonLoading &&(<Skeleton width={180} height={64}></Skeleton>)}
+
+			{(showRemoveButton && !showRemoveButtonLoading) &&(
 				<Button
 					color='warning'
 					disableElevation
@@ -74,7 +93,10 @@ export const DetailsTools: React.FC<IDetailsToolsProps> = ({
 				>
           Apagar
 				</Button>)}
-			{showNewButton && (
+
+			{showRemoveButtonLoading &&(<Skeleton width={110} height={64}></Skeleton>)}
+
+			{(showNewButton && !showNewButtonLoading) && (
 				<Button
 					color='warning'
 					disableElevation
@@ -85,9 +107,12 @@ export const DetailsTools: React.FC<IDetailsToolsProps> = ({
 					{textNewButton}
 				</Button>
 			)}
+
+			{showNewButtonLoading && (<Skeleton width={110} height={64}></Skeleton>)}
+
 			<Divider variant='middle' orientation='vertical' />
 
-			{showBackButton &&(
+			{(showBackButton && !showBackButtonLoading) &&(
 				<Button
 					color='warning'
 					disableElevation
@@ -97,6 +122,7 @@ export const DetailsTools: React.FC<IDetailsToolsProps> = ({
 				>
           Voltar
 				</Button>)}
+			{showBackButtonLoading && (<Skeleton width={110} height={64}></Skeleton>)}
 		</Box>
 	);
 };
@@ -108,6 +134,11 @@ DetailsTools.propTypes = {
 	showRemoveButton: PropTypes.bool,
 	showSaveButton: PropTypes.bool,
 	showSavenCloseButton: PropTypes.bool,
+	showNewButtonLoading: PropTypes.bool,
+	showBackButtonLoading: PropTypes.bool,
+	showRemoveButtonLoading: PropTypes.bool,
+	showSaveButtonLoading: PropTypes.bool,
+	showSavenCloseButtonLoading: PropTypes.bool,
 	onClickNew: PropTypes.func,
 	onClickBack: PropTypes.func,
 	onClickRemove: PropTypes.func,
