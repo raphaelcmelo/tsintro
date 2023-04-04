@@ -1,4 +1,4 @@
-import { Icon, IconButton, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Icon, IconButton, Theme, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { Box } from '@mui/system';
 import React from 'react';
 import { useDrawerContext } from '../contexts';
@@ -11,8 +11,8 @@ interface IBaseLayoutProps {
 
 export const BaseLayout: React.FC<IBaseLayoutProps> = ({ children, title, toolbar }) => {
 	const theme = useTheme();
-	const smDown = useMediaQuery(theme.breakpoints.down('sm'));
-	const mdDown = useMediaQuery(theme.breakpoints.down('md'));
+	const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
+	const mdDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
 	const { toggleDrawerOpen } = useDrawerContext();
 
 	return (
