@@ -15,13 +15,6 @@ interface IDetailPeople {
   fullName: string;
 }
 
-interface IDetailPeople {
-  id: number;
-  email: string;
-  cityId: number;
-  fullName: string;
-}
-
 type TPeopleWithTotalCount = {
   data: IListPeople[];
   totalCount: number
@@ -42,7 +35,6 @@ const getAll = async (page = 1, filter = ''): Promise<TPeopleWithTotalCount | Er
 	} catch (error) {
 		console.error(error);
 		return new Error((error as { message: string }).message || 'Erro ao listar os registros.');
-
 	}
 };
 
@@ -57,14 +49,39 @@ const getById = async (id: number): Promise<IDetailPeople | Error> => {
 	} catch (error) {
 		console.error(error);
 		return new Error((error as { message: string }).message || 'Erro ao listar o registro.');
-
 	}
 };
-const create = async (): Promise<any> => { };
+const create = async (userData: Omit<IDetailPeople, 'id'>): Promise<number | Error> => {
+	try {
+		const { data } = await Api.post<IDetailPeople>('/people', userData);
 
-const update = async (): Promise<any> => { };
+		if (data) {
+			return data.id;
+		}
+		return new Error('Erro ao criar o registro.');
+	} catch (error) {
+		console.error(error);
+		return new Error((error as { message: string }).message || 'Erro ao criar o registro.');
+	}
+};
 
-const deleteById = async (): Promise<any> => { };
+const update = async (id: number, userData: Omit<IDetailPeople, 'id'>): Promise<void | Error> => {
+	try {
+		await Api.put(`/people/${id}`, userData);
+	} catch (error) {
+		console.error(error);
+		return new Error((error as { message: string }).message || 'Erro ao atualizar o registro.');
+	}
+};
+
+const deleteById = async (id: number): Promise<void | Error> => {
+	try {
+		await Api.delete(`/people/${id}`);
+	} catch (error) {
+		console.error(error);
+		return new Error((error as { message: string }).message || 'Erro ao excluir o registro.');
+	}
+};
 
 
 export const PeopleService = {

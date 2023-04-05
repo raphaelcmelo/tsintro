@@ -7,7 +7,7 @@ export const Dashboard = () => {
 			title='Título da página'
 			toolbar={(
 				<DetailsTools
-					showSavenCloseButton
+					showSaveAndCloseButton
 
 				/>
 			)}>

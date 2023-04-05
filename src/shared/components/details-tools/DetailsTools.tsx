@@ -8,19 +8,19 @@ interface IDetailsToolsProps {
   showBackButton?: boolean,
   showRemoveButton?: boolean,
   showSaveButton?: boolean,
-  showSavenCloseButton?: boolean,
+  showSaveAndCloseButton?: boolean,
 
   showNewButtonLoading?: boolean,
   showBackButtonLoading?: boolean,
   showRemoveButtonLoading?: boolean,
   showSaveButtonLoading?: boolean,
-  showSavenCloseButtonLoading?: boolean,
+  showSaveAndCloseButtonLoading?: boolean,
 
   onClickNew?: () => void,
   onClickBack?: () => void,
   onClickRemove?: () => void,
   onClickSave?: () => void,
-  onClickSavenClose?: () => void,
+  onClickSaveAndClose?: () => void,
 }
 
 export const DetailsTools: React.FC<IDetailsToolsProps> = ({
@@ -30,19 +30,19 @@ export const DetailsTools: React.FC<IDetailsToolsProps> = ({
 	showBackButton = true,
 	showRemoveButton = true,
 	showSaveButton = true,
-	showSavenCloseButton = false,
+	showSaveAndCloseButton: showSaveAndCloseButton = false,
 
 	showNewButtonLoading = false,
 	showBackButtonLoading = false,
 	showRemoveButtonLoading = false,
 	showSaveButtonLoading = false,
-	showSavenCloseButtonLoading = false,
+	showSaveAndCloseButtonLoading = false,
 
 	onClickNew,
 	onClickBack,
 	onClickRemove,
 	onClickSave,
-	onClickSavenClose,
+	onClickSaveAndClose,
 }) => {
 	const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'));
 	const mdDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
@@ -80,12 +80,12 @@ export const DetailsTools: React.FC<IDetailsToolsProps> = ({
 
 			{showSaveButtonLoading &&(<Skeleton width={110} height={64}></Skeleton>)}
 
-			{(showSavenCloseButton && !showSavenCloseButtonLoading && !smDown && !mdDown)  &&(
+			{(showSaveAndCloseButton && !showSaveAndCloseButtonLoading && !smDown && !mdDown)  &&(
 				<Button
 					color='secondary'
 					disableElevation
 					variant='outlined'
-					onClick={onClickSavenClose}
+					onClick={onClickSaveAndClose}
 					startIcon={<Icon>save</Icon>}
 				>
 					<Typography
@@ -94,11 +94,11 @@ export const DetailsTools: React.FC<IDetailsToolsProps> = ({
 						textOverflow='ellipsis'
 						overflow='hidden'
 					>
-          Salvar e voltar
+          Salvar e fechar
 					</Typography>
 				</Button>)}
 
-			{(showSavenCloseButtonLoading && !smDown && !mdDown) &&(<Skeleton width={180} height={64}></Skeleton>)}
+			{(showSaveAndCloseButtonLoading && !smDown && !mdDown) &&(<Skeleton width={180} height={64}></Skeleton>)}
 
 			{(showRemoveButton && !showRemoveButtonLoading) &&(
 				<Button
@@ -143,7 +143,7 @@ export const DetailsTools: React.FC<IDetailsToolsProps> = ({
 
 			{
 				(showBackButton &&
-      ((showNewButton || showRemoveButton || showSaveButton || showSavenCloseButton)
+      ((showNewButton || showRemoveButton || showSaveButton || showSaveAndCloseButton)
       ) &&
 				<Divider variant='middle' orientation='vertical' />
 				)}
@@ -176,15 +176,15 @@ DetailsTools.propTypes = {
 	showBackButton: PropTypes.bool,
 	showRemoveButton: PropTypes.bool,
 	showSaveButton: PropTypes.bool,
-	showSavenCloseButton: PropTypes.bool,
+	showSaveAndCloseButton: PropTypes.bool,
 	showNewButtonLoading: PropTypes.bool,
 	showBackButtonLoading: PropTypes.bool,
 	showRemoveButtonLoading: PropTypes.bool,
 	showSaveButtonLoading: PropTypes.bool,
-	showSavenCloseButtonLoading: PropTypes.bool,
+	showSaveAndCloseButtonLoading: PropTypes.bool,
 	onClickNew: PropTypes.func,
 	onClickBack: PropTypes.func,
 	onClickRemove: PropTypes.func,
 	onClickSave: PropTypes.func,
-	onClickSavenClose: PropTypes.func
+	onClickSaveAndClose: PropTypes.func
 };
