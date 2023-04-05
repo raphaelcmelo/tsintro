@@ -38,15 +38,28 @@ const getAll = async (page = 1, filter = ''): Promise<TPeopleWithTotalCount | Er
 				totalCount: Number(headers['x-total-count']),
 			};
 		}
+		return new Error('Erro ao consultar os registros.');
 	} catch (error) {
 		console.error(error);
-		return new Error((error as { message: string }).message || 'Erro ao listar os registros');
+		return new Error((error as { message: string }).message || 'Erro ao listar os registros.');
 
 	}
 };
 
-const getById = async (): Promise<any> => { };
+const getById = async (id: number): Promise<IDetailPeople | Error> => {
+	try {
+		const { data } = await Api.get(`/people/${id}`);
 
+		if (data) {
+			return data;
+		}
+		return new Error('Erro ao consultar o registro.');
+	} catch (error) {
+		console.error(error);
+		return new Error((error as { message: string }).message || 'Erro ao listar o registro.');
+
+	}
+};
 const create = async (): Promise<any> => { };
 
 const update = async (): Promise<any> => { };
