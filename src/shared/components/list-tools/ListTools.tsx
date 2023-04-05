@@ -2,6 +2,8 @@ import { Box, Button, Icon, InputAdornment, Paper, TextField, useTheme } from '@
 import SearchIcon from '@mui/icons-material/Search';
 import PropTypes from 'prop-types';
 
+import { Environment } from '../../../environment';
+
 interface IListTools {
 	textSearch?: string;
 	showSearchInput?: boolean;
@@ -37,7 +39,7 @@ export const ListTools: React.FC<IListTools> = ({
 					size='small'
 					value={textSearch}
 					onChange={(e) => onChangeTextSearch?.(e.target.value)}
-					placeholder='Pesquisar...'
+					placeholder={Environment.SEARCH_INPUT}
 					InputProps={{
 						startAdornment: (
 							<InputAdornment
