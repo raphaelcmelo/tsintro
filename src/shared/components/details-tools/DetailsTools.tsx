@@ -171,7 +171,7 @@ export const DetailsTools: React.FC<IDetailsToolsProps> = ({
 };
 
 DetailsTools.propTypes = {
-	textNewButton: PropTypes.string.isRequired,
+	textNewButton: PropTypes.string,
 	showNewButton: PropTypes.bool,
 	showBackButton: PropTypes.bool,
 	showRemoveButton: PropTypes.bool,

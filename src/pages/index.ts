@@ -1,2 +1,2 @@
 export * from './dashboard/Dashboard';
-export * from './cities/CityList';
+export * from './people/PeopleList';

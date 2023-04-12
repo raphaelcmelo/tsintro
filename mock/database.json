@@ -2,8 +2,9 @@
   "people": [
     {
       "id": 1,
-      "name": "raphael",
-      "lastname": "melo"
+      "email": "raphael@mail.com",
+      "cityId": 1,
+      "fullName": "Raphael Melo"
     }
   ]
 }
