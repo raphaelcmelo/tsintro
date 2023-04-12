@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { LinearProgress, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
+import { LinearProgress, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 
 import { IListPeople, PeopleService } from '../../shared/services/api/people/PeopleService';
@@ -21,11 +21,15 @@ export const PeopleList: React.FC = () => {
 		return searchParams.get('find') || '';
 	}, [searchParams]);
 
+	const page = useMemo(() => {
+		return Number(searchParams.get('page') || '1');
+	}, [searchParams]);
+
 	useEffect(() => {
 		setIsLoading(true);
 
 		debounce(() => {
-			PeopleService.getAll(1, find)
+			PeopleService.getAll(page, find)
 				.then((result) => {
 					setIsLoading(false);
 
@@ -39,7 +43,7 @@ export const PeopleList: React.FC = () => {
 					}
 				});
 		});
-	}, [find]);
+	}, [find, page]);
 
 	return (
 		<BaseLayout
@@ -49,7 +53,7 @@ export const PeopleList: React.FC = () => {
 					showSearchInput={true}
 					textNewButton='Nova'
 					textSearch={find}
-					onChangeTextSearch={text => setSearchParams({ find: text }, { replace: true })}
+					onChangeTextSearch={text => setSearchParams({ find: text, page: '1' }, { replace: true })}
 				/>
 			}
 		>
@@ -81,6 +85,17 @@ export const PeopleList: React.FC = () => {
 							<TableRow>
 								<TableCell colSpan={3}>
 									<LinearProgress variant='indeterminate'/>
+								</TableCell>
+							</TableRow>
+						)}
+						{(totalCount > 0 && totalCount > Environment.LINES_LIMIT) && (
+							<TableRow>
+								<TableCell colSpan={3}>
+									<Pagination
+										page={page}
+										count={Math.ceil(totalCount / Environment.LINES_LIMIT)}
+										onChange={(_, newPage) => setSearchParams({ find, page: newPage.toString() }, { replace: true })}
+									/>
 								</TableCell>
 							</TableRow>
 						)}
