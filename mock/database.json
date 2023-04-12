@@ -5,6 +5,30 @@
       "email": "raphael@mail.com",
       "cityId": 1,
       "fullName": "Raphael Melo"
+    },
+    {
+      "id": 2,
+      "email": "juca@mail.com",
+      "cityId": 1,
+      "fullName": "Juca Piroto"
+    },
+    {
+      "id": 3,
+      "email": "cuca@mail.com",
+      "cityId": 1,
+      "fullName": "Cuca Beludo"
+    },
+    {
+      "id": 4,
+      "email": "sujiro@mail.com",
+      "cityId": 1,
+      "fullName": "Sujiro Kifuja"
+    },
+    {
+      "id": 5,
+      "email": "nakombi@mail.com",
+      "cityId": 1,
+      "fullName": "Nakombi Dofusca"
     }
   ]
 }

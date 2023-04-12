@@ -1,28 +1,40 @@
+import { useEffect, useMemo, useState } from 'react';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
-import { useEffect, useMemo } from 'react';
-import { useDebounce } from '../../shared/hooks';
 
-import { PeopleService } from '../../shared/services/api/people/PeopleService';
+import { IListPeople, PeopleService } from '../../shared/services/api/people/PeopleService';
 import { ListTools } from '../../shared/components';
 import { BaseLayout } from '../../shared/layouts';
+import { useDebounce } from '../../shared/hooks';
 
 export const PeopleList: React.FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
-	const { debounce } = useDebounce(1000);
+	const { debounce } = useDebounce();
+
+	const [rows, setRows] = useState<IListPeople[]> ([]);
+	const [totalCount, setTotalCount] = useState(0);
+	const [isLoading, setIsLoading] = useState(true);
+
 
 	const find = useMemo(() => {
 		return searchParams.get('find') || '';
 	}, [searchParams]);
 
 	useEffect(() => {
+		setIsLoading(true);
 
 		debounce(() => {
 			PeopleService.getAll(1, find)
 				.then((result) => {
+					setIsLoading(false);
+
 					if (result instanceof Error) {
 						alert(result.message);
 					} else {
 						console.log(result);
+
+						setTotalCount(result.totalCount);
+						setRows(result.data);
 					}
 				});
 		});
@@ -40,7 +52,26 @@ export const PeopleList: React.FC = () => {
 				/>
 			}
 		>
-
+			<TableContainer component={Paper} variant='outlined' sx={{ m: 1, width: 'auto' }}>
+				<Table>
+					<TableHead>
+						<TableRow>
+							<TableCell>Ações</TableCell>
+							<TableCell>Nome completo</TableCell>
+							<TableCell>Email</TableCell>
+						</TableRow>
+					</TableHead>
+					<TableBody>
+						{rows.map(row => (
+							<TableRow key={row.id}>
+								<TableCell>Ações</TableCell>
+								<TableCell>{row.fullName}</TableCell>
+								<TableCell>{row.email}</TableCell>
+							</TableRow>
+						))}
+					</TableBody>
+				</Table>
+			</TableContainer>
 		</BaseLayout>
 	);
 };
