@@ -1,11 +1,13 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { Form } from '@unform/web';
 
 
 import { BaseLayout } from '../../shared/layouts';
 import { DetailsTools } from '../../shared/components';
 import { PeopleService } from '../../shared/services/api/people/PeopleService';
 import { LinearProgress } from '@mui/material';
+import { VTextField } from '../../shared/forms';
 
 
 
@@ -72,11 +74,13 @@ export const DetailPeople: React.FC = () => {
 		>
 			{isLoading && (
 				<LinearProgress variant='indeterminate' />
-			)
+			)}
+			<Form onSubmit={(data) => console.log(data)}>
+				<VTextField
+					name='fullName'
 
-			}
-
-			<p>DetailPeople {id}</p>
+				/>
+			</Form>
 		</BaseLayout>
 	);
 };
