@@ -1,13 +1,15 @@
 import { TextField, TextFieldProps } from '@mui/material';
 import { useField } from '@unform/core';
 import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
 
-type TVTextField = TextFieldProps & {
+
+type TVTextFieldProps = TextFieldProps & {
   name: string;
 }
 
-export const VTextField: React.FC<TVTextField> = ({ name, ...rest }) => {
+export const VTextField: React.FC<TVTextFieldProps> = ({ name, ...rest }) => {
 	const { fieldName, defaultValue, error, registerField, clearError } = useField(name);
 
 	const [value, setValue] = useState(defaultValue || '');
@@ -35,4 +37,8 @@ export const VTextField: React.FC<TVTextField> = ({ name, ...rest }) => {
 			onKeyDown={ () => error ? clearError() : undefined }
 		/>
 	);
+};
+
+VTextField.propTypes = {
+	name: PropTypes.string.isRequired as PropTypes.Validator<string>,
 };
