@@ -4,6 +4,7 @@ import { useAppThemeContext, useDrawerContext } from '../shared/contexts';
 import { useEffect } from 'react';
 import {
 	Dashboard,
+	DetailPeople,
 	PeopleList
 } from '../pages';
 
@@ -29,10 +30,10 @@ export const AppRoutes = () => {
 	return(
 		<Routes>
 			{/* <Route path='/home' element={<><Button variant='contained' color='primary' onClick={toggleDrawerOpen}>TOGGLE DRAWER</Button><Button variant='contained' color='primary' onClick={toggleTheme}>TOGGLE THEME</Button></>}/> */}
-			{/* <Route path='*' element={<Navigate to={'/home'} />} /> */}
 			<Route path='/home' element={<Dashboard />}/>
+			{/* <Route path='*' element={<Navigate to={'/home'} />} /> */}
 			<Route path='/people' element={<PeopleList />}/>
-			<Route path='/people/detail/:id' element={<p>Detalhe</p>}/>
+			<Route path='/people/detail/:id' element={<DetailPeople />}/>
 			{/* <Route path='/cities/detail/:id' element={<CityList />}/> */}
 		</Routes>
 	);
