@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import { LinearProgress, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
-import { useSearchParams } from 'react-router-dom';
+import { Icon, IconButton, LinearProgress, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { IListPeople, PeopleService } from '../../shared/services/api/people/PeopleService';
 import { ListTools } from '../../shared/components';
@@ -11,6 +11,7 @@ import { Environment } from '../../environment';
 export const PeopleList: React.FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const { debounce } = useDebounce();
+	const navigate = useNavigate();
 
 	const [rows, setRows] = useState<IListPeople[]> ([]);
 	const [totalCount, setTotalCount] = useState(0);
@@ -45,6 +46,26 @@ export const PeopleList: React.FC = () => {
 		});
 	}, [find, page]);
 
+	const handleDelete = (id: number) => {
+
+		if (confirm('Tem certeza que deseja excluir o registro? Essa ação não poderá ser desfeita!')) {
+			PeopleService.deleteById(id)
+				.then(result => {
+					if (result instanceof Error) {
+						alert(result.message);
+					} else {
+						setRows(oldRows => [
+							...oldRows.filter(oldRow => oldRow.id !== id),
+						]);
+						alert('Registro excluído com sucesso!');
+					}
+				});
+		}
+	};
+
+	// const handleEdit = (id: number) => {
+
+	// };
 	return (
 		<BaseLayout
 			title="Listagem de pessoas"
@@ -69,7 +90,14 @@ export const PeopleList: React.FC = () => {
 					<TableBody>
 						{rows.map(row => (
 							<TableRow key={row.id}>
-								<TableCell>Ações</TableCell>
+								<TableCell>
+									<IconButton size='small'onClick={() => navigate(`/people/detail/${row.id}`)}>
+										<Icon>edit</Icon>
+									</IconButton>
+									<IconButton size='small' onClick={ () => handleDelete(row.id)}>
+										<Icon>delete</Icon>
+									</IconButton>
+								</TableCell>
 								<TableCell>{row.fullName}</TableCell>
 								<TableCell>{row.email}</TableCell>
 							</TableRow>
