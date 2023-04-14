@@ -59,6 +59,12 @@
       "email": "nakombi@mail.com",
       "cityId": 1,
       "fullName": "Nakombi Dofusca"
+    },
+    {
+      "id": 11,
+      "fullName": "Testando Jose",
+      "email": "testando@mail.com",
+      "cityId": "1"
     }
   ]
 }

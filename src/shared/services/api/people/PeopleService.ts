@@ -65,7 +65,7 @@ const create = async (userData: Omit<IDetailPeople, 'id'>): Promise<number | Err
 	}
 };
 
-const update = async (id: number, userData: Omit<IDetailPeople, 'id'>): Promise<void | Error> => {
+const update = async (id: number, userData: IDetailPeople): Promise<void | Error> => {
 	try {
 		await Api.put(`/people/${id}`, userData);
 	} catch (error) {
