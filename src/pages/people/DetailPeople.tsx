@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
-import { Box, Grid, LinearProgress, Paper } from '@mui/material';
+import { Box, Grid, LinearProgress, Paper, Typography } from '@mui/material';
 
 import { BaseLayout } from '../../shared/layouts';
 import { DetailsTools } from '../../shared/components';
@@ -99,36 +99,54 @@ export const DetailPeople: React.FC = () => {
 					onClickBack={() => navigate('/people')}
 				/>}
 		>
-			{isLoading && (
-				<LinearProgress variant='indeterminate' />
-			)}
 			<Form ref={formRef} onSubmit={handleSave}>
 				<Box margin={1} display="flex" flexDirection='column' component={Paper} variant='outlined'>
+
 					<Grid container direction='column' padding={2} spacing={2}>
-						<Grid container item direction='row'>
+
+						{isLoading && (
 							<Grid item>
+								<LinearProgress variant='indeterminate' />
+							</Grid>
+						)}
+
+						<Grid item>
+							<Typography variant='h6'>
+                Geral
+							</Typography>
+						</Grid>
+
+						<Grid container item direction='row' spacing={2}>
+							<Grid item xs={12} sm={8} md={6} lg={4} xl={2}>
 								<VTextField
 									fullWidth
-									placeholder='Nome completo'
-									name='fullName'/>
+									label='Nome completo'
+									name='fullName'
+									disabled={isLoading}
+									onChange={e => setTitle(e.target.value)}
+								/>
 							</Grid>
 						</Grid>
 
-						<Grid container item direction='row'>
-							<Grid item>
+						<Grid container item direction='row' spacing={2}>
+							<Grid item  xs={12} sm={8} md={6} lg={4} xl={2}>
 								<VTextField
 									fullWidth
-									placeholder='Email'
-									name='email'/>
+									label='Email'
+									name='email'
+									disabled={isLoading}
+								/>
 							</Grid>
 						</Grid>
 
-						<Grid container item direction='row'>
-							<Grid item >
+						<Grid container item direction='row' spacing={2}>
+							<Grid item  xs={12} sm={8} md={6} lg={4} xl={2}>
 								<VTextField
 									fullWidth
-									placeholder='Cidade'
-									name='cityId'/>
+									label='Cidade'
+									name='cityId'
+									disabled={isLoading}
+								/>
 							</Grid>
 						</Grid>
 					</Grid>
