@@ -2,12 +2,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
-
+import { Box, Grid, LinearProgress, Paper } from '@mui/material';
 
 import { BaseLayout } from '../../shared/layouts';
 import { DetailsTools } from '../../shared/components';
 import { PeopleService } from '../../shared/services/api/people/PeopleService';
-import { LinearProgress } from '@mui/material';
 import { VTextField } from '../../shared/forms';
 
 interface IFormData {
@@ -104,10 +103,36 @@ export const DetailPeople: React.FC = () => {
 				<LinearProgress variant='indeterminate' />
 			)}
 			<Form ref={formRef} onSubmit={handleSave}>
-				<VTextField placeholder='Nome completo' name='fullName'/>
-				<VTextField placeholder='Email' name='email'/>
-				<VTextField placeholder='Cidade' name='cityId'/>
+				<Box margin={1} display="flex" flexDirection='column' component={Paper} variant='outlined'>
+					<Grid container direction='column' padding={2} spacing={2}>
+						<Grid container item direction='row'>
+							<Grid item>
+								<VTextField
+									fullWidth
+									placeholder='Nome completo'
+									name='fullName'/>
+							</Grid>
+						</Grid>
 
+						<Grid container item direction='row'>
+							<Grid item>
+								<VTextField
+									fullWidth
+									placeholder='Email'
+									name='email'/>
+							</Grid>
+						</Grid>
+
+						<Grid container item direction='row'>
+							<Grid item >
+								<VTextField
+									fullWidth
+									placeholder='Cidade'
+									name='cityId'/>
+							</Grid>
+						</Grid>
+					</Grid>
+				</Box>
 			</Form>
 		</BaseLayout>
 	);
