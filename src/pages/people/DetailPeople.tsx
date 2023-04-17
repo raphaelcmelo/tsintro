@@ -3,17 +3,23 @@ import { useEffect, useRef, useState } from 'react';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import { Box, Grid, LinearProgress, Paper, Typography } from '@mui/material';
+import * as yup from 'yup';
 
 import { BaseLayout } from '../../shared/layouts';
 import { DetailsTools } from '../../shared/components';
 import { PeopleService } from '../../shared/services/api/people/PeopleService';
-import { VTextField } from '../../shared/forms';
+import { IVFormErrors, VTextField } from '../../shared/forms';
 
 interface IFormData {
   email: string,
   fullName: string,
   cityId: number
 }
+const formValidationSchema: yup.Schema<IFormData> = yup.object().shape({
+	email: yup.string().required('O campo é obrigatório').email('O email informado não é válido.'),
+	fullName: yup.string().required('O campo é obrigatório').min(3, 'O campo precisa ter pelo menos 3 caracteres.'),
+	cityId: yup.number().required('O campo é obrigatório')
+});
 
 export const DetailPeople: React.FC = () => {
 	const { id = 'new' } = useParams<'id'>();
@@ -44,28 +50,43 @@ export const DetailPeople: React.FC = () => {
 
 
 	const handleSave = (userData: IFormData) => {
-		setIsLoading(true);
-		if (id === 'new') {
-			PeopleService
-				.create(userData)
-				.then((result) => {
-					setIsLoading(false);
-					if (result instanceof Error) {
-						alert(result.message);
-					} else {
-						navigate(`/people/detail/${result}`);
-					}
+		formValidationSchema.
+			validate(userData, { abortEarly: false })
+			.then((validatedData: IFormData) => {
+				setIsLoading(true);
+
+				if (id === 'new') {
+					PeopleService
+						.create(validatedData)
+						.then((result) => {
+							setIsLoading(false);
+							if (result instanceof Error) {
+								alert(result.message);
+							} else {
+								navigate(`/people/detail/${result}`);
+							}
+						});
+				} else {
+					PeopleService
+						.update(Number(id), {id: Number(id), ...validatedData})
+						.then((result) => {
+							setIsLoading(false);
+							if (result instanceof Error) {
+								alert(result.message);
+							}
+						});
+				}
+			})
+			.catch((errors: yup.ValidationError) => {
+				const validationErrors: IVFormErrors = {};
+
+				errors.inner.forEach(error => {
+					if (!error.path) return;
+
+					validationErrors[error.path] = error.message;
 				});
-		} else {
-			PeopleService
-				.update(Number(id), {id: Number(id), ...userData})
-				.then((result) => {
-					setIsLoading(false);
-					if (result instanceof Error) {
-						alert(result.message);
-					}
-				});
-		}
+				formRef.current?.setErrors(validationErrors);
+			});
 	};
 
 	const handleDelete = (id: number) => {
