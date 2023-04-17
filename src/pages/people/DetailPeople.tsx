@@ -9,6 +9,7 @@ import { BaseLayout } from '../../shared/layouts';
 import { DetailsTools } from '../../shared/components';
 import { PeopleService } from '../../shared/services/api/people/PeopleService';
 import { IVFormErrors, VTextField } from '../../shared/forms';
+import { AutoCompleteCity } from './components/AutoCompleteCity';
 
 interface IFormData {
   email: string,
@@ -168,12 +169,7 @@ export const DetailPeople: React.FC = () => {
 
 						<Grid container item direction='row' spacing={2}>
 							<Grid item  xs={12} sm={8} md={6} lg={4} xl={2}>
-								<VTextField
-									fullWidth
-									label='Cidade'
-									name='cityId'
-									disabled={isLoading}
-								/>
+								<AutoCompleteCity />
 							</Grid>
 						</Grid>
 					</Grid>
