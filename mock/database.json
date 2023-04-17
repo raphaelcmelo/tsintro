@@ -66,5 +66,19 @@
       "email": "testando@mail.com",
       "cityId": "1"
     }
+  ],
+  "city": [
+    {
+      "name": "Porto Rico",
+      "id": 1
+    },
+    {
+      "name": "Anápolis",
+      "id": 2
+    },
+    {
+      "name": "Badiânia",
+      "id": 3
+    }
   ]
 }

@@ -7,21 +7,17 @@ import * as yup from 'yup';
 
 import { BaseLayout } from '../../shared/layouts';
 import { DetailsTools } from '../../shared/components';
-import { PeopleService } from '../../shared/services/api/people/PeopleService';
+import { CityService } from '../../shared/services/api/city/CityService';
 import { IVFormErrors, VTextField } from '../../shared/forms';
 
 interface IFormData {
-  email: string,
-  fullName: string,
-  cityId: number
+  name: string,
 }
 const formValidationSchema: yup.Schema<IFormData> = yup.object().shape({
-	email: yup.string().required('O campo é obrigatório').email('O email informado não é válido.'),
-	fullName: yup.string().required('O campo é obrigatório').min(3, 'O campo precisa ter pelo menos 3 caracteres.'),
-	cityId: yup.number().required('O campo é obrigatório')
+	name: yup.string().required().min(3),
 });
 
-export const DetailPeople: React.FC = () => {
+export const DetailCity: React.FC = () => {
 	const { id = 'new' } = useParams<'id'>();
 	const navigate = useNavigate();
 
@@ -34,46 +30,44 @@ export const DetailPeople: React.FC = () => {
 		if (id !== 'new') {
 			setIsLoading(true);
 
-			PeopleService.getById(Number(id))
+			CityService.getById(Number(id))
 				.then((result) => {
 					setIsLoading(false);
 					if(result instanceof Error) {
 						alert(result.message);
-						navigate('/people');
+						navigate('/city');
 					} else {
-						setTitle(result.fullName);
+						setTitle(result.name);
 						formRef.current?.setData(result);
 					}
 				});
 		} else {
 			formRef.current?.setData({
-				email: '',
-				cityId: '',
-				fullName: ''
+				name: ''
 			});
 		}
 	}, [id]);
 
 
-	const handleSave = (userData: IFormData) => {
+	const handleSave = (cityData: IFormData) => {
 		formValidationSchema.
-			validate(userData, { abortEarly: false })
+			validate(cityData, { abortEarly: false })
 			.then((validatedData: IFormData) => {
 				setIsLoading(true);
 
 				if (id === 'new') {
-					PeopleService
+					CityService
 						.create(validatedData)
 						.then((result) => {
 							setIsLoading(false);
 							if (result instanceof Error) {
 								alert(result.message);
 							} else {
-								navigate(`/people/detail/${result}`);
+								navigate(`/city/detail/${result}`);
 							}
 						});
 				} else {
-					PeopleService
+					CityService
 						.update(Number(id), {id: Number(id), ...validatedData})
 						.then((result) => {
 							setIsLoading(false);
@@ -97,13 +91,13 @@ export const DetailPeople: React.FC = () => {
 
 	const handleDelete = (id: number) => {
 		if (confirm('Tem certeza que deseja excluir o registro? Essa ação não poderá ser desfeita!')) {
-			PeopleService.deleteById(id)
+			CityService.deleteById(id)
 				.then(result => {
 					if (result instanceof Error) {
 						alert(result.message);
 					} else {
 						alert('Registro excluído com sucesso!');
-						navigate('/people');
+						navigate('/city');
 					}
 				});
 		}
@@ -111,7 +105,7 @@ export const DetailPeople: React.FC = () => {
 
 	return (
 		<BaseLayout
-			title={ id === 'new' ? 'Nova pessoa' : title }
+			title={ id === 'new' ? 'Nova cidade' : title }
 			toolbar={
 				<DetailsTools
 					textNewButton='Nova'
@@ -122,8 +116,8 @@ export const DetailPeople: React.FC = () => {
 					onClickSave={() => formRef.current?.submitForm()}
 					onClickSaveAndClose={() => formRef.current?.submitForm()}
 					onClickRemove={() => handleDelete(Number(id))}
-					onClickNew={() => navigate('/people/detail/new')}
-					onClickBack={() => navigate('/people')}
+					onClickNew={() => navigate('/city/detail/new')}
+					onClickBack={() => navigate('/city')}
 				/>}
 		>
 			<Form ref={formRef} onSubmit={handleSave}>
@@ -147,32 +141,10 @@ export const DetailPeople: React.FC = () => {
 							<Grid item xs={12} sm={8} md={6} lg={4} xl={2}>
 								<VTextField
 									fullWidth
-									label='Nome completo'
-									name='fullName'
+									label='Nome'
+									name='name'
 									disabled={isLoading}
 									onChange={e => setTitle(e.target.value)}
-								/>
-							</Grid>
-						</Grid>
-
-						<Grid container item direction='row' spacing={2}>
-							<Grid item  xs={12} sm={8} md={6} lg={4} xl={2}>
-								<VTextField
-									fullWidth
-									label='Email'
-									name='email'
-									disabled={isLoading}
-								/>
-							</Grid>
-						</Grid>
-
-						<Grid container item direction='row' spacing={2}>
-							<Grid item  xs={12} sm={8} md={6} lg={4} xl={2}>
-								<VTextField
-									fullWidth
-									label='Cidade'
-									name='cityId'
-									disabled={isLoading}
 								/>
 							</Grid>
 						</Grid>

@@ -2,18 +2,18 @@ import { useEffect, useMemo, useState } from 'react';
 import { Icon, IconButton, LinearProgress, Pagination, Paper, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TableRow } from '@mui/material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { IListPeople, PeopleService } from '../../shared/services/api/people/PeopleService';
+import { IListCity, CityService } from '../../shared/services/api/city/CityService';
 import { ListTools } from '../../shared/components';
 import { BaseLayout } from '../../shared/layouts';
 import { useDebounce } from '../../shared/hooks';
 import { Environment } from '../../environment';
 
-export const PeopleList: React.FC = () => {
+export const CityList: React.FC = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const { debounce } = useDebounce();
 	const navigate = useNavigate();
 
-	const [rows, setRows] = useState<IListPeople[]> ([]);
+	const [rows, setRows] = useState<IListCity[]> ([]);
 	const [totalCount, setTotalCount] = useState(0);
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -30,7 +30,7 @@ export const PeopleList: React.FC = () => {
 		setIsLoading(true);
 
 		debounce(() => {
-			PeopleService.getAll(page, find)
+			CityService.getAll(page, find)
 				.then((result) => {
 					setIsLoading(false);
 
@@ -49,7 +49,7 @@ export const PeopleList: React.FC = () => {
 	const handleDelete = (id: number) => {
 
 		if (confirm('Tem certeza que deseja excluir o registro? Essa ação não poderá ser desfeita!')) {
-			PeopleService.deleteById(id)
+			CityService.deleteById(id)
 				.then(result => {
 					if (result instanceof Error) {
 						alert(result.message);
@@ -73,7 +73,7 @@ export const PeopleList: React.FC = () => {
 				<ListTools
 					showSearchInput={true}
 					textNewButton='Nova'
-					clickOnNew={() => navigate('/people/detail/new')}
+					clickOnNew={() => navigate('/city/detail/new')}
 					textSearch={find}
 					onChangeTextSearch={text => setSearchParams({ find: text, page: '1' }, { replace: true })}
 				/>
@@ -83,24 +83,22 @@ export const PeopleList: React.FC = () => {
 				<Table>
 					<TableHead>
 						<TableRow>
-							<TableCell  width={100}>Ações</TableCell>
-							<TableCell>Nome completo</TableCell>
-							<TableCell>Email</TableCell>
+							<TableCell width={100}>Ações</TableCell>
+							<TableCell>Nome</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
 						{rows.map(row => (
 							<TableRow key={row.id}>
 								<TableCell>
-									<IconButton size='small'onClick={() => navigate(`/people/detail/${row.id}`)}>
+									<IconButton size='small'onClick={() => navigate(`/city/detail/${row.id}`)}>
 										<Icon>edit</Icon>
 									</IconButton>
 									<IconButton size='small' onClick={ () => handleDelete(row.id)}>
 										<Icon>delete</Icon>
 									</IconButton>
 								</TableCell>
-								<TableCell>{row.fullName}</TableCell>
-								<TableCell>{row.email}</TableCell>
+								<TableCell>{row.name}</TableCell>
 							</TableRow>
 						))}
 					</TableBody>
