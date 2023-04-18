@@ -4,12 +4,14 @@ import { BaseLayout } from '../../shared/layouts';
 import { useEffect, useState } from 'react';
 import { PeopleService } from '../../shared/services/api/people/PeopleService';
 import { CityService } from '../../shared/services/api/city/CityService';
+import { useNavigate } from 'react-router-dom';
 
 export const Dashboard = () => {
 	const [isPeopleLoading, setIsPeopleLoading] = useState(false);
 	const [isCityLoading, setIsCityLoading] = useState(false);
 	const [peopleTotalCount, setPeopleTotalCount] = useState(0);
 	const [cityTotalCount, setCityTotalCount] = useState(0);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		setIsPeopleLoading(true);
@@ -47,7 +49,10 @@ export const Dashboard = () => {
 				<Grid container margin={1.25}>
 					<Grid container item spacing={2}>
 						<Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-							<Card>
+							<Card
+								style={{ cursor: 'pointer' }}
+								onClick={() => navigate('/people')}
+							>
 								<CardContent>
 									<Typography variant='h5' align='center'>
                     Total de pessoas
@@ -66,7 +71,10 @@ export const Dashboard = () => {
 							</Card>
 						</Grid>
 						<Grid item xs={12} sm={12} md={6} lg={4} xl={2}>
-							<Card>
+							<Card
+								style={{ cursor: 'pointer' }}
+								onClick={() => navigate('/city')}
+							>
 								<CardContent>
 									<Typography variant='h5' align='center'>
                     Total de cidades
