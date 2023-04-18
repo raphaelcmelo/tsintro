@@ -1,10 +1,10 @@
-import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
+import { createContext, useContext, useCallback, useEffect, useMemo, useState, FC } from 'react';
 
 import { AuthService } from '../services/api/auth/AuthService';
 
 interface IAuthContextData {
   isAuthenticated: boolean;
-  login: () => Promise<string | void>;
+  login: (email: string, password: string) => Promise<string | void>;
   logout: () => void;
 }
 
@@ -16,7 +16,7 @@ interface IAuthProviderProps {
   children: React.ReactNode;
 }
 
-export const AuthProvider: React.FC<IAuthProviderProps> = ( { children }) =>  {
+export const AuthProvider: FC<IAuthProviderProps> = ( { children }) =>  {
   const [accessToken, setAccessToken] = useState<string>();
 
 useEffect(() => {
@@ -27,7 +27,7 @@ if (accessToken) {
 } else {
   setAccessToken(undefined);
 }
-}, [])
+}, []);
 
 
   const handleLogin = useCallback(async (email: string, password: string) => {
@@ -49,11 +49,10 @@ if (accessToken) {
 
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login: handleLogin, logout: handleLogout}}>
+    <AuthContext.Provider value={{ isAuthenticated: isAuthenticated, login: handleLogin, logout: handleLogout}}>
       {children}
     </AuthContext.Provider>
-
-
   );
+  }
 
-};
+export const useAuthContext = () => useContext(AuthContext)
