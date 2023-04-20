@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import * as yup from 'yup';
 
 import { useAuthContext } from '../../contexts';
-import { error, log } from 'console';
 
 const loginSchema = yup.object().shape({
 	email: yup.string().email().required(),
